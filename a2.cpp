@@ -1,75 +1,87 @@
 #include <iostream>
 using namespace std;
 
-void printArray(int arr[], int n) {
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+void printArray(int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << " ";
+    }
     cout << endl;
 }
 
-void mergeArrays(int arr[], int left, int mid, int right) {
-    int temp[10];
-    int i = left;
-    int j = mid + 1;
-    int k = 0;
+void merge(int arr[], int left, int mid, int right)
+{
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
 
-    while (i <= mid && j <= right) {
-        if (arr[i] <= arr[j]) {
-            temp[k] = arr[i];
+    int L[100], R[100];
+
+    for (int i = 0; i < n1; i++)
+    {
+        L[i] = arr[left + i];
+    }
+
+    for (int j = 0; j < n2; j++)
+    {
+        R[j] = arr[mid + 1 + j];
+    }
+
+    int i = 0;
+    int j = 0;
+    int k = left;
+
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
             i++;
-        } else {
-            temp[k] = arr[j];
+        }
+        else
+        {
+            arr[k] = R[j];
             j++;
         }
         k++;
     }
 
-    while (i <= mid) {
-        temp[k] = arr[i];
+    while (i < n1)
+    {
+        arr[k] = L[i];
         i++;
         k++;
     }
 
-    while (j <= right) {
-        temp[k] = arr[j];
+    while (j < n2)
+    {
+        arr[k] = R[j];
         j++;
         k++;
     }
+}
 
-    for (int x = 0; x < k; x++) {
-        arr[left + x] = temp[x];
+void mergeSort(int arr[], int left, int right)
+{
+    if (left < right)
+    {
+        int mid = (left + right) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
     }
 }
 
-void mergeSort(int arr[], int left, int right) {
-    if (left >= right) return;
+int main()
+{
+    int arr[] = {14, 51, 25, 55, 27, 80, 56, 40, 37, 93};
+    int size = 10;
 
-    int mid = (left + right) / 2;
+    mergeSort(arr, 0, size - 1);
 
-    cout << "Divide: left=" << left << ", mid=" << mid << ", right=" << right << endl;
-
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-
-    mergeArrays(arr, left, mid, right);
-
-    cout << "After merge from index " << left << " to " << right << ": ";
-    printArray(arr, 10);
-}
-
-int main() {
-    int arr[10] = {14, 51, 25, 55, 27, 80, 56, 40, 37, 93};
-    int n = 10;
-
-    cout << "A2. Merge Sort\n";
-    cout << "Original array: ";
-    printArray(arr, n);
-
-    mergeSort(arr, 0, n - 1);
-
-    cout << "Final sorted array: ";
-    printArray(arr, n);
-
-    cout << "Time complexity: O(n log n)\n";
+    printArray(arr, size);
 
     return 0;
 }
