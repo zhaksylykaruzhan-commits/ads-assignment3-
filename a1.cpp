@@ -1,36 +1,45 @@
 #include <iostream>
 using namespace std;
 
-int main() {
-    int arr[10] = {14, 51, 25, 55, 27, 80, 56, 40, 37, 93};
-    int n = 10;
-
-    cout << "A1. Bubble Sort\n";
-    cout << "Original array: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+void printArray(int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << " ";
+    }
     cout << endl;
+}
 
-    for (int pass = 1; pass <= 3; pass++) {
+void bubbleSort(int arr[], int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
         bool swapped = false;
 
-        for (int j = 0; j < n - pass; j++) {
-            if (arr[j] > arr[j + 1]) {
+        for (int j = 0; j < size - i - 1; j++)
+        {
+            if (arr[j] > arr[j + 1])
+            {
                 swap(arr[j], arr[j + 1]);
                 swapped = true;
             }
         }
 
-        cout << "After pass " << pass << ": ";
-        for (int i = 0; i < n; i++) cout << arr[i] << " ";
-        cout << endl;
+        printArray(arr, size);
 
-        if (!swapped) {
-            cout << "Early Exit: no swaps, array is already sorted.\n";
+        if (!swapped)
+        {
             break;
         }
     }
+}
 
-    cout << "Time complexity: O(n^2)\n";
+int main()
+{
+    int arr[] = {14, 51, 25, 55, 27, 80, 56, 40, 37, 93};
+    int size = 10;
+
+    bubbleSort(arr, size);
 
     return 0;
 }
